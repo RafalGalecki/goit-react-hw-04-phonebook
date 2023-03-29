@@ -1,3 +1,4 @@
+import React from 'react';
 import css from './ContactsListElement.module.css';
 import PropTypes from 'prop-types';
 

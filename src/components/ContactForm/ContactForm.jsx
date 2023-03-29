@@ -1,7 +1,7 @@
 //import { Component } from 'react';
 import { useState } from 'react';
 import { nanoid } from 'nanoid';
-import Notiflix from 'notiflix';
+//import Notiflix from 'notiflix';
 import css from './ContactForm.module.css';
 import PropTypes from 'prop-types';
 
