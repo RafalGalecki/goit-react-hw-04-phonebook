@@ -24,8 +24,9 @@ const ContactsList = ({ contactsLength, contacts, deleteContact }) => {
 };
 
 ContactsList.propTypes = {
-  children: PropTypes.node,
+  contacts: PropTypes.array,
   contactsLength: PropTypes.number,
+  deleteContact: PropTypes.func,
 };
 
 export default ContactsList;

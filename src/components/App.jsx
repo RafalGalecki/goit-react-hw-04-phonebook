@@ -26,7 +26,7 @@ export const App = () => {
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(contacts));
-    console.log('set to storage', contacts)
+    console.log('set to storage', contacts);
   }, [contacts]);
 
   const addContact = contact => {
@@ -47,7 +47,6 @@ export const App = () => {
     );
   };
 
-  
   return (
     <div>
       <h1>Phonebook</h1>
@@ -70,5 +69,3 @@ export const App = () => {
 App.propTypes = {
   filteredContacts: PropTypes.array,
 };
-
-

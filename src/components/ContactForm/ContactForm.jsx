@@ -1,4 +1,3 @@
-//import { Component } from 'react';
 import { useState } from 'react';
 import { nanoid } from 'nanoid';
 import { Notify } from 'notiflix';
@@ -15,7 +14,7 @@ const ContactForm = ({ contacts, addContact }) => {
       : setNumber(event.currentTarget.value);
   };
 
-    const handleSubmit = event => {
+  const handleSubmit = event => {
     event.preventDefault();
     const contact = {
       name,
@@ -24,24 +23,25 @@ const ContactForm = ({ contacts, addContact }) => {
     };
 
     let isContact;
-
     contacts.forEach(person => {
-      if (person.name.toLowerCase() === contact.name.toLowerCase()) {
-        Notify.info(`${contact.name} is already in your Contacts.`);
+      if (contact.name.toLowerCase() === person.name.toLowerCase()) {
         isContact = true;
       }
     });
-
-    if (!isContact) {
-      addContact(contact);
-      Notify.success(`${contact.name} was added to the Phonebook.`);
-    }
+    isContact
+      ? Notify.warning(`${contact.name} is already in your Contacts.`, {
+          timeout: 3000,
+          position: 'left-top',
+          closeButton: true,
+        })
+      : addContact(contact);
 
     reset();
   };
   const reset = () => {
     setName('');
     setNumber('');
+    console.log('RESET');
   };
 
   const nameInputId = nanoid();

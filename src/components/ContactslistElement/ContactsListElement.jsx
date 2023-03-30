@@ -4,7 +4,6 @@ import css from './ContactsListElement.module.css';
 import PropTypes from 'prop-types';
 
 const ContactsListElement = ({ id, name, number, deleteContact }) => {
-  //const { id, name, number } = contact;
   return (
     <li key={id} className={css.contactLi}>
       <span className={css.contact}>{name}:</span>
@@ -22,7 +21,9 @@ const ContactsListElement = ({ id, name, number, deleteContact }) => {
 };
 
 ContactsListElement.propTypes = {
-  //contacts: PropTypes.array,
+  id: PropTypes.string,
+  name: PropTypes.string,
+  number: PropTypes.string,
   deleteContact: PropTypes.func,
 };
 
