@@ -86,6 +86,7 @@ ContactForm.propTypes = {
   name: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   number: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),
   addContact: PropTypes.func,
+  contacts: PropTypes.array,
 };
 
 export default ContactForm;

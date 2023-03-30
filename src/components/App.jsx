@@ -3,7 +3,6 @@ import React from 'react';
 import ContactForm from './ContactForm/ContactForm';
 import ContactsList from './ContactsList/ContactsList';
 import Filter from './Filter/Filter';
-import PropTypes from 'prop-types';
 
 const STORAGE_KEY = 'myContacts';
 // const INITIAL_MOCK_CONTACTS = [
@@ -18,6 +17,7 @@ export const App = () => {
 
   useEffect(() => {
     const persistedContacts = localStorage.getItem(STORAGE_KEY);
+    
     console.log('get from storage');
     if (persistedContacts) {
       setContacts(JSON.parse(persistedContacts));
@@ -26,6 +26,7 @@ export const App = () => {
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(contacts));
+
     console.log('set to storage', contacts);
   }, [contacts]);
 
@@ -64,8 +65,4 @@ export const App = () => {
       ></ContactsList>
     </div>
   );
-};
-
-App.propTypes = {
-  filteredContacts: PropTypes.array,
 };
