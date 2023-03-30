@@ -5,18 +5,19 @@ import ContactsList from './ContactsList/ContactsList';
 import Filter from './Filter/Filter';
 
 const STORAGE_KEY = 'myContacts';
+const getContactsFromLocalStorage = () => {
+  const persistedContacts = JSON.parse(localStorage.getItem(STORAGE_KEY));
 
+  if (persistedContacts) {
+    return persistedContacts;
+  } else {
+    return [];
+  }
+};
 export const App = () => {
-  const [contacts, setContacts] = useState([]);
+  const [contacts, setContacts] = useState(getContactsFromLocalStorage());
   const [filter, setFilter] = useState('');
 
-  useEffect(() => {
-    const persistedContacts = localStorage.getItem(STORAGE_KEY);
-
-    if (persistedContacts) {
-      setContacts(JSON.parse(persistedContacts));
-    }
-  }, []);
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(contacts));
