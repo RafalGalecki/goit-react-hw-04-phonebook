@@ -2,113 +2,84 @@ import { useState, useEffect } from 'react';
 //import { Component } from 'react';
 import ContactForm from './ContactForm/ContactForm';
 import ContactsList from './ContactsList/ContactsList';
-import ContactsListElement from './ContactslistElement/ContactsListElement';
+//import ContactsListElement from './ContactslistElement/ContactsListElement';
 import Filter from './Filter/Filter';
+import { Notify } from 'notiflix';
 import PropTypes from 'prop-types';
 
- const STORAGE_KEY = 'myContacts';
-const INITIAL_CONTACTS = {
-  id: '',
-  name: '',
-  number: '',
-}
+//const STORAGE_KEY = 'myContacts';
+
 export const App = () => {
-  const [contacts, setContacts] = useState(INITIAL_CONTACTS);
+  const [contacts, setContacts] = useState([]);
   const [filter, setFilter] = useState('');
 
-  // state = {
-  //   contacts: [],
-  //   filter: '',
-  // };
-
-  // localStorage logic starts here:
   useEffect(() => {
-    const persistedContacts = localStorage.getItem(STORAGE_KEY);
-
-    if (persistedContacts) {
-      setContacts({ contacts: JSON.parse(persistedContacts) });
-      console.log('get on start');
+    const savedContacts = localStorage.getItem('contacts');
+    const parsedContacts = JSON.parse(savedContacts);
+    if (parsedContacts) {
+      setContacts(parsedContacts);
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
-localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(contacts)
-      );
-  }, [contacts])
+    localStorage.setItem('contacts', JSON.stringify(contacts));
+  }, [contacts]);
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (prevState.contacts !== this.state.contacts) {
-  //     localStorage.setItem(
-  //       this.STORAGE_KEY,
-  //       JSON.stringify(this.state.contacts)
-  //     );
-  //   }
-  // }
-  // // localStorage logic end
-
-  const addContact = contact => {
-    setContacts(prevState => ({
-      contacts: [...prevState.contacts, contact],
-    }));
-    // THe syntax without localStorage:
-    // this.setState({
-    //   contacts: [...this.state.contacts, contact],
-    // });
+  const filterValue = event => {
+    setFilter(event.currentTarget.value);
   };
 
-  const deleteContact = id => {
-    setContacts({
-      contacts: contacts.filter(contact => contact.id !== id),
-    });
-  };
-
-  const filterContacts = element => {
-    setFilter({
-      filter: element.currentTarget.value,
-    });
-  };
-
-  const filteredContacts = () => {
-    
+  const filterContacts = () => {
     return contacts.filter(contact =>
       contact.name.toLowerCase().includes(filter.toLowerCase())
     );
   };
 
- 
-    //const value = this.state.filter;
-    //const filteredContacts = this.filterContacts();
-    return (
-      <div>
-        <h1>Phonebook</h1>
-        <ContactForm
-          addContact={addContact}
-          contacts={contacts}
-        />
-        <h2>Contacts</h2>
-        <Filter
-          value={filter}
-          filterContacts={filteredContacts}
-          onChange={filterContacts}
-        />
-        <ContactsList contactsLength={contacts.length}>
+  const addUserToContacts = user => {
+    setContacts([...contacts, user]);
+  };
+
+  const deleteContact = identification => {
+    const deletedName = contacts.find(({ id }) => id === identification).name;
+
+    setContacts(prevState =>
+      prevState.filter(contact => contact.id !== identification)
+    );
+
+    Notify.success(`${deletedName} was deleted from the Phonebook.`);
+  };
+
+  const filteredContacts = filterContacts();
+  return (
+    <div>
+      <h1>Phonebook</h1>
+      <ContactForm addUserToContacts={addUserToContacts} contacts={contacts} />
+      <h2>Contacts</h2>
+      <Filter
+        value={filter}
+        onChange={filterValue}
+        filteredContacts={filteredContacts}
+      />
+      <ContactsList
+        contactsLength={contacts.length}
+        contacts={filteredContacts}
+        deleteContact={deleteContact}
+      >
+        {/* {contacts.map(contact => (
           <ContactsListElement
-            contacts={filteredContacts}
+            key={contact.id}
+            name={contact.name}
+            number={contact.number}
             deleteContact={deleteContact}
           />
-        </ContactsList>
-      </div>
-    );
-  }
-
+        ))} */}
+      </ContactsList>
+    </div>
+  );
+};
 
 App.propTypes = {
   filteredContacts: PropTypes.array,
 };
 
 // mock contacts:
-// { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-// { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-// { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
