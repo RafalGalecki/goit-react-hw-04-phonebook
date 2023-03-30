@@ -1,3 +1,4 @@
+import React from 'react';
 import { nanoid } from 'nanoid';
 import css from './Filter.module.css';
 import PropTypes from 'prop-types';
@@ -20,7 +21,6 @@ const Filter = ({ value, onChange }) => {
 
 Filter.propTypes = {
   value: PropTypes.string,
-  filteredContacts: PropTypes.array,
   onChange: PropTypes.func,
 };
 
