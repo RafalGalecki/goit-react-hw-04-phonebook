@@ -5,46 +5,36 @@ import { Notify } from 'notiflix';
 import css from './ContactForm.module.css';
 import PropTypes from 'prop-types';
 
-
-
-const ContactForm = ({ contacts, addUserToContacts }) => {
+const ContactForm = ({ contacts, addContact }) => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
   const handleChange = event => {
-    const prop = event.currentTarget.name;
-    switch (prop) {
-      case 'name':
-        setName(event.currentTarget.value);
-        break;
-      case 'number':
-        setNumber(event.currentTarget.value);
-        break;
-      default:
-        throw new Error('Error');
-    }
+    event.currentTarget.name === 'name'
+      ? setName(event.currentTarget.value)
+      : setNumber(event.currentTarget.value);
   };
 
-  const handleSubmit = event => {
+    const handleSubmit = event => {
     event.preventDefault();
-    const user = {
+    const contact = {
       name,
       number,
       id: nanoid(),
     };
 
-    let contactExists = false;
+    let isContact;
 
-    contacts.forEach(contact => {
-      if (contact.name.toLowerCase() === user.name.toLowerCase()) {
-        Notify.info(`${contact.name} is already in the Phonebook.`);
-        contactExists = true;
+    contacts.forEach(person => {
+      if (person.name.toLowerCase() === contact.name.toLowerCase()) {
+        Notify.info(`${contact.name} is already in your Contacts.`);
+        isContact = true;
       }
     });
 
-    if (!contactExists) {
-      addUserToContacts(user);
-      Notify.success(`${user.name} was added to the Phonebook.`);
+    if (!isContact) {
+      addContact(contact);
+      Notify.success(`${contact.name} was added to the Phonebook.`);
     }
 
     reset();
@@ -53,6 +43,7 @@ const ContactForm = ({ contacts, addUserToContacts }) => {
     setName('');
     setNumber('');
   };
+
   const nameInputId = nanoid();
   const numberInputId = nanoid();
 

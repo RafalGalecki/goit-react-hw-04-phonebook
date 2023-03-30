@@ -23,7 +23,7 @@ const ContactsListElement = ({ id, name, number, deleteContact }) => {
 
 ContactsListElement.propTypes = {
   //contacts: PropTypes.array,
-  deleteContactr: PropTypes.func,
+  deleteContact: PropTypes.func,
 };
 
 export default ContactsListElement;
