@@ -5,11 +5,6 @@ import ContactsList from './ContactsList/ContactsList';
 import Filter from './Filter/Filter';
 
 const STORAGE_KEY = 'myContacts';
-// const INITIAL_MOCK_CONTACTS = [
-//   { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-//   { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-//   { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-// ];
 
 export const App = () => {
   const [contacts, setContacts] = useState([]);
@@ -17,8 +12,7 @@ export const App = () => {
 
   useEffect(() => {
     const persistedContacts = localStorage.getItem(STORAGE_KEY);
-    
-    console.log('get from storage');
+
     if (persistedContacts) {
       setContacts(JSON.parse(persistedContacts));
     }
@@ -26,8 +20,6 @@ export const App = () => {
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(contacts));
-
-    console.log('set to storage', contacts);
   }, [contacts]);
 
   const addContact = contact => {

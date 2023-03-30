@@ -41,7 +41,6 @@ const ContactForm = ({ contacts, addContact }) => {
   const reset = () => {
     setName('');
     setNumber('');
-    console.log('RESET');
   };
 
   const nameInputId = nanoid();
